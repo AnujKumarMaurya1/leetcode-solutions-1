@@ -1,0 +1,14 @@
+from collections import Counter
+
+class Solution:
+    def shortestCompletingWord(self, licensePlate: str, words: List[str]) -> str:
+        need = Counter(c.lower() for c in licensePlate if c.isalpha())
+
+        best = None
+        for w in words:
+            if best is not None and len(w) >= len(best):
+                continue                       # can't be shorter; skip
+            wc = Counter(w)
+            if all(wc[ch] >= cnt for ch, cnt in need.items()):
+                best = w
+        return best
